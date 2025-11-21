@@ -1,7 +1,7 @@
 'use client'
 
 import React from 'react';
-import { Users, Calendar, MapPin, Home } from 'lucide-react';
+import { Users, Calendar, MapPin, Home, UserCheck, FolderKanban } from 'lucide-react';
 
 // Imports estáticos
 import { Sidebar } from './Sidebar';
@@ -42,6 +42,20 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
       icon: MapPin,
       description: 'Gerenciar áreas',
       color: 'yellow' as const
+    },
+    {
+      title: 'Colaboradores',
+      href: '/dashboard/colaboradores',
+      icon: UserCheck,
+      description: 'Gerenciar colaboradores',
+      color: 'yellow' as const
+    },
+    {
+      title: 'Gestão de Projetos',
+      href: '/dashboard/gestao-projetos',
+      icon: FolderKanban,
+      description: 'Projetos e tarefas',
+      color: 'blue' as const
     }
   ];
   

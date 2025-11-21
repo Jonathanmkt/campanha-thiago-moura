@@ -159,7 +159,7 @@ export function Sidebar({ links }: SidebarProps) {
                 `cursor-pointer ${colors.hover}`,
                 'transition-colors duration-200',
                 'flex items-center',
-                currentPathname.includes(link.href) && 'bg-white/15'
+                currentPathname === link.href && 'bg-white/15'
               )}
             >
               <Link href={link.href} className="flex items-center w-full">

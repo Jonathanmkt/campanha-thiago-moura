@@ -5,8 +5,8 @@
 @layer base {
   :root {
     /* Defina suas variáveis CSS customizadas */
-    --primary: #335d7d;
-    --primary-foreground: #b3a52d;
+    --primary: #4d9ce2;
+    --primary-foreground: #e4d196;
     --secondary: #329788;
     --secondary-foreground: #FFFFFF;
     --tertiary: #f8fafc;
