@@ -1,14 +1,8 @@
 import { type NextRequest } from 'next/server'
-// TODO: TEMPORÁRIO - Middleware desabilitado durante desenvolvimento
-// import { updateSession } from '@/lib/supabase/middleware'
+import { updateSession } from '@/lib/supabase/middleware'
 
 export async function middleware(request: NextRequest) {
-  // TODO: TEMPORÁRIO - Middleware de autenticação desabilitado para desenvolvimento
-  // Reativar antes do deploy em produção descomentando a linha abaixo:
-  // return await updateSession(request)
-  
-  // Por enquanto, permite acesso a todas as rotas
-  return
+  return await updateSession(request)
 }
 
 export const config = {

@@ -7,16 +7,12 @@ import { Input } from '@/components/ui/input';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
-import { NovaLiderancaForm } from './NovaLiderancaForm';
+import { NovaLiderancaForm } from './components/NovaLiderancaForm';
 import type { Tables } from '@/types';
 
 type Lideranca = Tables<'lideranca'>;
 
-interface CoordenadorMobilePageProps {
-  userId: string | null;
-}
-
-export function CoordenadorMobilePage({ userId }: CoordenadorMobilePageProps) {
+export default function CoordenadorPage() {
   const [liderancas, setLiderancas] = useState<Lideranca[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
@@ -175,7 +171,7 @@ export function CoordenadorMobilePage({ userId }: CoordenadorMobilePageProps) {
         <SheetTrigger asChild>
           <Button
             size="icon"
-            className="fixed bottom-6 right-6 h-14 w-14 rounded-full shadow-lg bg-blue-600 hover:bg-blue-700"
+            className="fixed bottom-6 right-6 h-14 w-14 rounded-full aspect-square shadow-lg bg-blue-600 hover:bg-blue-700"
           >
             <Plus className="h-6 w-6" />
           </Button>

@@ -1,6 +1,50 @@
 import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 
+type UserRole = 'coordenador' | 'lideranca' | 'colaborador' | null;
+
+function getPrimaryRole(roles: string[] | null): UserRole {
+  if (!roles || roles.length === 0) return null;
+  
+  if (roles.includes('coordenador')) return 'coordenador';
+  if (roles.includes('lideranca')) return 'lideranca';
+  if (roles.includes('colaborador')) return 'colaborador';
+  
+  return null;
+}
+
+function getRouteForRole(role: UserRole): string {
+  switch (role) {
+    case 'coordenador':
+      return '/mobile/coordenador';
+    case 'lideranca':
+      return '/mobile/lideranca';
+    case 'colaborador':
+      return '/dashboard';
+    default:
+      return '/sem-acesso';
+  }
+}
+
+function isAllowedRoute(pathname: string, role: UserRole): boolean {
+  if (role === 'coordenador') {
+    return pathname.startsWith('/mobile/coordenador');
+  }
+  if (role === 'lideranca') {
+    return pathname.startsWith('/mobile/lideranca');
+  }
+  if (role === 'colaborador') {
+    return pathname.startsWith('/dashboard');
+  }
+  return pathname === '/sem-acesso';
+}
+
+const PUBLIC_ROUTES = ['/auth', '/sem-acesso', '/_next', '/api', '/favicon.ico'];
+
+function isPublicRoute(pathname: string): boolean {
+  return PUBLIC_ROUTES.some(route => pathname.startsWith(route));
+}
+
 export async function updateSession(request: NextRequest) {
   let supabaseResponse = NextResponse.next({
     request,
@@ -27,32 +71,47 @@ export async function updateSession(request: NextRequest) {
     }
   )
 
-  // IMPORTANT: Avoid writing any logic between createServerClient and
-  // supabase.auth.getUser(). A simple mistake could make it very hard to debug
-  // issues with users being randomly logged out.
+  const pathname = request.nextUrl.pathname;
+
+  // Rotas públicas não precisam de verificação
+  if (isPublicRoute(pathname)) {
+    return supabaseResponse;
+  }
 
   const {
     data: { user },
   } = await supabase.auth.getUser()
 
-  if (
-    !user &&
-    !request.nextUrl.pathname.startsWith('/auth') &&
-    request.nextUrl.pathname !== '/'
-  ) {
-    // no user, potentially respond by redirecting the user to the login page
+  // Usuário não autenticado: redireciona para login
+  if (!user) {
     const url = request.nextUrl.clone()
     url.pathname = '/auth/login'
     return NextResponse.redirect(url)
   }
 
-  // IMPORTANT: You *must* return the supabaseResponse object as it is. If you're
-  // creating a new response object with NextResponse.next() make sure to:
-  // 1. Pass the request in it, like so:
-  //    const myNewResponse = NextResponse.next({ request })
-  // 2. Copy over the cookies, like so:
-  //    myNewResponse.cookies.setAll(supabaseResponse.cookies.getAll())
-  // 3. Change the myNewResponse object instead of the supabaseResponse object
+  // Buscar roles do perfil
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('roles')
+    .eq('id', user.id)
+    .single();
+
+  const primaryRole = getPrimaryRole(profile?.roles ?? null);
+  const allowedRoute = getRouteForRole(primaryRole);
+
+  // Rota raiz: redireciona para a rota permitida
+  if (pathname === '/') {
+    const url = request.nextUrl.clone()
+    url.pathname = allowedRoute
+    return NextResponse.redirect(url)
+  }
+
+  // Verifica se o usuário pode acessar a rota atual
+  if (!isAllowedRoute(pathname, primaryRole)) {
+    const url = request.nextUrl.clone()
+    url.pathname = allowedRoute
+    return NextResponse.redirect(url)
+  }
 
   return supabaseResponse
 }

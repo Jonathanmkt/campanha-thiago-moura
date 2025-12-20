@@ -5,7 +5,8 @@ import { type NextRequest } from 'next/server'
 export async function GET(request: NextRequest) {
   const { searchParams, origin } = new URL(request.url)
   const code = searchParams.get('code')
-  const next = searchParams.get('next') ?? '/dashboard'
+  // Middleware irá redirecionar para a rota correta baseado na role
+  const next = searchParams.get('next') ?? '/'
 
   if (code) {
     const supabase = await createClient()

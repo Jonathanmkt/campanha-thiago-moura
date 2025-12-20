@@ -42,11 +42,20 @@ export async function POST(request: NextRequest) {
       nome_popular,
       telefone,
       email,
-      bairro,
-      cidade,
       tipo_lideranca,
       nivel_influencia,
       observacoes,
+      // Campos de endereço (novos)
+      endereco_formatado,
+      logradouro,
+      numero,
+      complemento,
+      bairro,
+      cidade,
+      estado,
+      cep,
+      latitude,
+      longitude,
     } = body;
 
     if (!nome_completo?.trim()) {
@@ -63,7 +72,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Criar a liderança
+    // Criar a liderança com todos os campos de endereço
     const { data: lideranca, error: liderancaError } = await supabase
       .from('lideranca')
       .insert({
@@ -71,13 +80,22 @@ export async function POST(request: NextRequest) {
         nome_popular: nome_popular?.trim() || null,
         telefone: telefone?.trim() || null,
         email: email?.trim() || null,
-        bairro: bairro?.trim() || null,
-        cidade: cidade?.trim() || null,
         tipo_lideranca,
         nivel_influencia: nivel_influencia || 3,
         observacoes: observacoes?.trim() || null,
         status: 'ativo',
         ativo: true,
+        // Campos de endereço
+        endereco_formatado: endereco_formatado?.trim() || null,
+        logradouro: logradouro?.trim() || null,
+        numero: numero?.trim() || null,
+        complemento: complemento?.trim() || null,
+        bairro: bairro?.trim() || null,
+        cidade: cidade?.trim() || null,
+        estado: estado?.trim() || null,
+        cep: cep?.trim() || null,
+        latitude: latitude || null,
+        longitude: longitude || null,
       })
       .select()
       .single();

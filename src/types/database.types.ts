@@ -5,7 +5,7 @@
  * ⚠️  ATENÇÃO: Este arquivo é gerado automaticamente!
  * Não edite manualmente. Execute 'npm run generate-types' para atualizar.
  * 
- * Última atualização: 2025-12-15T22:31:14.309Z
+ * Última atualização: 2025-12-17T15:41:27.163Z
  * Projeto ID: xkqtrwbnionpbjziilgy
  */
 
@@ -1112,6 +1112,8 @@ export type Database = {
           bairro: string | null
           cep: string | null
           cidade: string | null
+          complemento: string | null
+          coordenadas_completas: unknown
           coordenador_regional_id: string | null
           cpf: string | null
           data_atualizacao: string
@@ -1121,11 +1123,17 @@ export type Database = {
           data_ultimo_contato: string | null
           email: string | null
           endereco: string | null
+          endereco_formatado: string | null
+          estado: string | null
           foto_url: string | null
           id: string
+          latitude: number | null
+          logradouro: string | null
+          longitude: number | null
           nivel_influencia: number | null
           nome_completo: string
           nome_popular: string | null
+          numero: string | null
           observacoes: string | null
           profile_id: string | null
           profissao: string | null
@@ -1141,6 +1149,8 @@ export type Database = {
           bairro?: string | null
           cep?: string | null
           cidade?: string | null
+          complemento?: string | null
+          coordenadas_completas?: unknown
           coordenador_regional_id?: string | null
           cpf?: string | null
           data_atualizacao?: string
@@ -1150,11 +1160,17 @@ export type Database = {
           data_ultimo_contato?: string | null
           email?: string | null
           endereco?: string | null
+          endereco_formatado?: string | null
+          estado?: string | null
           foto_url?: string | null
           id?: string
+          latitude?: number | null
+          logradouro?: string | null
+          longitude?: number | null
           nivel_influencia?: number | null
           nome_completo: string
           nome_popular?: string | null
+          numero?: string | null
           observacoes?: string | null
           profile_id?: string | null
           profissao?: string | null
@@ -1170,6 +1186,8 @@ export type Database = {
           bairro?: string | null
           cep?: string | null
           cidade?: string | null
+          complemento?: string | null
+          coordenadas_completas?: unknown
           coordenador_regional_id?: string | null
           cpf?: string | null
           data_atualizacao?: string
@@ -1179,11 +1197,17 @@ export type Database = {
           data_ultimo_contato?: string | null
           email?: string | null
           endereco?: string | null
+          endereco_formatado?: string | null
+          estado?: string | null
           foto_url?: string | null
           id?: string
+          latitude?: number | null
+          logradouro?: string | null
+          longitude?: number | null
           nivel_influencia?: number | null
           nome_completo?: string
           nome_popular?: string | null
+          numero?: string | null
           observacoes?: string | null
           profile_id?: string | null
           profissao?: string | null
@@ -1592,6 +1616,7 @@ export type Database = {
           status: string | null
           telefone: string | null
           ultimo_acesso: string | null
+          updated_at: string
         }
         Insert: {
           access_level?: number | null
@@ -1608,6 +1633,7 @@ export type Database = {
           status?: string | null
           telefone?: string | null
           ultimo_acesso?: string | null
+          updated_at?: string
         }
         Update: {
           access_level?: number | null
@@ -1624,6 +1650,7 @@ export type Database = {
           status?: string | null
           telefone?: string | null
           ultimo_acesso?: string | null
+          updated_at?: string
         }
         Relationships: []
       }
